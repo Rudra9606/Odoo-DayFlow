@@ -21,7 +21,7 @@ npm run dev
 **✅ Success:** You should see:
 ```
 ✅ MongoDB Connected: 127.0.0.1
-📊 Database: workzen_hrms
+📊 Database: DayFlow_hrms
 ```
 
 ### 3. Seed Database
@@ -34,22 +34,22 @@ npm run seed
 ✅ Seeded 6 users
 ✅ Seeded 6 employees
 📝 Test Credentials:
-   Admin:    admin@workzen.com    / admin123
-   Employee: employee@workzen.com / employee123
-   HR:       hr@workzen.com       / hr123
-   Payroll:  payroll@workzen.com  / payroll123
+   Admin:    admin@DayFlow.com    / admin123
+   Employee: employee@DayFlow.com / employee123
+   HR:       hr@DayFlow.com       / hr123
+   Payroll:  payroll@DayFlow.com  / payroll123
 ```
 
 ### 4. Open MongoDB Compass
 - Connect to: `mongodb://127.0.0.1:27017`
-- Database: `workzen_hrms`
+- Database: `DayFlow_hrms`
 - You should see: `users`, `employees` collections
 
 ### 5. Test Login (Optional)
 ```bash
 curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@workzen.com","password":"admin123"}'
+  -d '{"email":"admin@DayFlow.com","password":"admin123"}'
 ```
 
 ---
@@ -58,10 +58,10 @@ curl -X POST http://localhost:5000/api/auth/login \
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | admin@workzen.com | admin123 |
-| Employee | employee@workzen.com | employee123 |
-| HR Officer | hr@workzen.com | hr123 |
-| Payroll Officer | payroll@workzen.com | payroll123 |
+| Admin | admin@DayFlow.com | admin123 |
+| Employee | employee@DayFlow.com | employee123 |
+| HR Officer | hr@DayFlow.com | hr123 |
+| Payroll Officer | payroll@DayFlow.com | payroll123 |
 
 ---
 
@@ -70,7 +70,7 @@ curl -X POST http://localhost:5000/api/auth/login \
 ### Login
 ```bash
 POST http://localhost:5000/api/auth/login
-Body: {"email":"admin@workzen.com","password":"admin123"}
+Body: {"email":"admin@DayFlow.com","password":"admin123"}
 ```
 
 ### Register New User
@@ -78,7 +78,7 @@ Body: {"email":"admin@workzen.com","password":"admin123"}
 POST http://localhost:5000/api/auth/register
 Body: {
   "name": "Test User",
-  "email": "test@workzen.com",
+  "email": "test@DayFlow.com",
   "password": "test123",
   "role": "Employee",
   "department": "IT"
@@ -159,14 +159,14 @@ npm run dev
 ### Check 3: Collections Created
 - Open MongoDB Compass
 - Connect to `127.0.0.1:27017`
-- Check `workzen_hrms` database exists
+- Check `DayFlow_hrms` database exists
 - Verify `users` and `employees` collections
 
 ### Check 4: Login Works
 ```bash
 curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@workzen.com","password":"admin123"}'
+  -d '{"email":"admin@DayFlow.com","password":"admin123"}'
 ```
 - Should return JWT token
 
@@ -200,8 +200,8 @@ curl -X POST http://localhost:5000/api/auth/login \
 
 ---
 
-**Database:** `workzen_hrms`  
-**Connection:** `mongodb://127.0.0.1:27017/workzen_hrms`  
+**Database:** `DayFlow_hrms`  
+**Connection:** `mongodb://127.0.0.1:27017/DayFlow_hrms`  
 **Last Updated:** November 8, 2025
 
 ---

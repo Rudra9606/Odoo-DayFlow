@@ -11,7 +11,7 @@ const User = require('../models/User');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/workzen_hrms', {
+    await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/dayflow_hrms', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -33,9 +33,9 @@ const seedUsers = async () => {
       {
         firstName: 'Admin',
         lastName: 'User',
-        company: 'WorkZen',
+        company: 'DayFlow',
         name: 'Admin User',
-        email: 'admin@workzen.com',
+        email: 'admin@DayFlow.com',
         password: 'admin123',
         role: 'Admin',
         department: 'IT',
@@ -46,9 +46,9 @@ const seedUsers = async () => {
       {
         firstName: 'John',
         lastName: 'Doe',
-        company: 'WorkZen',
+        company: 'DayFlow',
         name: 'John Doe',
-        email: 'employee1@workzen.com',
+        email: 'employee1@DayFlow.com',
         password: 'emp123',
         role: 'Employee',
         department: 'Engineering',
@@ -59,9 +59,9 @@ const seedUsers = async () => {
       {
         firstName: 'Sarah',
         lastName: 'Johnson',
-        company: 'WorkZen',
+        company: 'DayFlow',
         name: 'Sarah Johnson',
-        email: 'hr1@workzen.com',
+        email: 'hr1@DayFlow.com',
         password: 'hr1234',
         role: 'HR Officer',
         department: 'HR',
@@ -72,9 +72,9 @@ const seedUsers = async () => {
       {
         firstName: 'Mike',
         lastName: 'Payroll',
-        company: 'WorkZen',
+        company: 'DayFlow',
         name: 'Mike Payroll',
-        email: 'payroll1@workzen.com',
+        email: 'payroll1@DayFlow.com',
         password: 'pay123',
         role: 'Payroll Officer',
         department: 'Finance',
@@ -103,7 +103,7 @@ const seedEmployees = async (users) => {
       {
         firstName: 'Admin',
         lastName: 'User',
-        email: 'admin@workzen.com',
+        email: 'admin@DayFlow.com',
         phone: '+1-234-567-8900',
         dateOfBirth: new Date('1985-05-15'),
         employeeId: 'EMP001',
@@ -125,7 +125,7 @@ const seedEmployees = async (users) => {
       {
         firstName: 'John',
         lastName: 'Employee',
-        email: 'employee@workzen.com',
+        email: 'employee@DayFlow.com',
         phone: '+1-234-567-8901',
         dateOfBirth: new Date('1990-03-20'),
         employeeId: 'EMP002',
@@ -140,7 +140,7 @@ const seedEmployees = async (users) => {
       {
         firstName: 'Sarah',
         lastName: 'HR',
-        email: 'hr@workzen.com',
+        email: 'hr@DayFlow.com',
         phone: '+1-234-567-8902',
         dateOfBirth: new Date('1988-07-10'),
         employeeId: 'EMP003',
@@ -155,7 +155,7 @@ const seedEmployees = async (users) => {
       {
         firstName: 'Mike',
         lastName: 'Payroll',
-        email: 'payroll@workzen.com',
+        email: 'payroll@DayFlow.com',
         phone: '+1-234-567-8903',
         dateOfBirth: new Date('1987-11-25'),
         employeeId: 'EMP004',
@@ -170,7 +170,7 @@ const seedEmployees = async (users) => {
       {
         firstName: 'Emily',
         lastName: 'Rodriguez',
-        email: 'emily@workzen.com',
+        email: 'emily@DayFlow.com',
         phone: '+1-234-567-8904',
         dateOfBirth: new Date('1992-02-14'),
         employeeId: 'EMP005',
@@ -185,7 +185,7 @@ const seedEmployees = async (users) => {
       {
         firstName: 'David',
         lastName: 'Park',
-        email: 'david@workzen.com',
+        email: 'david@DayFlow.com',
         phone: '+1-234-567-8905',
         dateOfBirth: new Date('1989-09-30'),
         employeeId: 'EMP006',
@@ -217,10 +217,10 @@ const runSeeder = async () => {
     
     console.log('\n✅ Database seeding completed successfully!\n');
     console.log('📝 Test Credentials:');
-    console.log('   Admin:       admin@workzen.com    / admin123');
-    console.log('   Employee:    employee1@workzen.com / emp123');
-    console.log('   HR Officer:  hr1@workzen.com       / hr1234');
-    console.log('   Payroll:     payroll1@workzen.com  / pay123');
+    console.log('   Admin:       admin@DayFlow.com    / admin123');
+    console.log('   Employee:    employee1@DayFlow.com / emp123');
+    console.log('   HR Officer:  hr1@DayFlow.com       / hr1234');
+    console.log('   Payroll:     payroll1@DayFlow.com  / pay123');
     console.log('\n');
     
     process.exit(0);

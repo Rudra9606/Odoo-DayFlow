@@ -1,7 +1,7 @@
 {
-  "name": "workzen-hrms-backend",
+  "name": "DayFlow-hrms-backend",
   "version": "1.0.0",
-  "description": "Backend API for WorkZen HRMS - Modern Human Resource Management System",
+  "description": "Backend API for DayFlow HRMS - Modern Human Resource Management System",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -17,7 +17,7 @@
     "payroll",
     "attendance"
   ],
-  "author": "WorkZen Team",
+  "author": "DayFlow Team",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",

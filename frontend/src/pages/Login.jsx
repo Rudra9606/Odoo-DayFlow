@@ -1,5 +1,5 @@
 /**
- * WorkZen HRMS - Login Page
+ * DayFlow HRMS - Login Page
  * Single-file login page with role-based redirection
  * Redirects to appropriate dashboard based on user role:
  * - Employee → /dashboard/employee
@@ -68,9 +68,9 @@ function Login() {
 
       if (response.ok) {
         // Save token and user info to localStorage
-        localStorage.setItem('workzen_token', data.token);
-        localStorage.setItem('workzen_role', data.user.role);
-        localStorage.setItem('workzen_user', JSON.stringify(data.user));
+        localStorage.setItem('dayflow_token', data.token);
+        localStorage.setItem('dayflow_role', data.user.role);
+        localStorage.setItem('dayflow_user', JSON.stringify(data.user));
         
         console.log('✅ Login successful, redirecting to role dashboard:', data.user.role);
         
@@ -122,7 +122,7 @@ function Login() {
         <div className="text-center mb-8">
           <Link to="/">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              WorkZen
+              DayFlow
             </h1>
           </Link>
         </div>
@@ -137,7 +137,7 @@ function Login() {
           {/* Header */}
           <div className="mb-8 text-center">
             <h2 className="text-3xl font-bold text-white mb-2">
-              Welcome Back to WorkZen HRMS
+              Welcome Back to DayFlow HRMS
             </h2>
             <p className="text-gray-400 text-sm">
               Login to manage attendance, payroll, and more.
@@ -187,7 +187,7 @@ function Login() {
                   onChange={handleChange}
                   required
                   className="w-full pl-10 pr-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                  placeholder="admin@workzen.com or WOJOSU20250001"
+                  placeholder="admin@dayflow.com or WOJOSU20250001"
                 />
               </div>
               <p className="text-xs text-gray-500 mt-1">
@@ -229,10 +229,10 @@ function Login() {
               </div>
               <div className="text-xs text-gray-500 mt-2 space-y-1">
                 <p className="font-semibold text-gray-400">Test credentials:</p>
-                <p>• Employee: employee1@workzen.com / emp123</p>
-                <p>• HR Officer: hr1@workzen.com / hr1234</p>
-                <p>• Payroll Officer: payroll1@workzen.com / pay123</p>
-                <p>• Admin: admin@workzen.com / admin123</p>
+                <p>• Employee: employee1@dayflow.com / emp123</p>
+                <p>• HR Officer: hr1@dayflow.com / hr1234</p>
+                <p>• Payroll Officer: payroll1@dayflow.com / pay123</p>
+                <p>• Admin: admin@dayflow.com / admin123</p>
               </div>
             </motion.div>
 
@@ -296,7 +296,7 @@ function Login() {
           transition={{ delay: 0.5 }}
           className="mt-8 text-center text-gray-500 text-xs"
         >
-          <p>Secure authentication powered by WorkZen HRMS</p>
+          <p>Secure authentication powered by DayFlow HRMS</p>
         </motion.div>
       </motion.div>
     </div>

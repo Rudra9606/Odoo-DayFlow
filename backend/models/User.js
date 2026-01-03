@@ -73,7 +73,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Company is required'],
     trim: true,
     uppercase: true,
-    default: 'WORKZEN'
+    default: 'DayFlow'
   },
   userId: {
     type: String,

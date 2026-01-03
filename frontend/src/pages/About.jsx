@@ -8,7 +8,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="text-2xl font-bold text-primary-500">
-              WorkZen
+              DayFlow
             </Link>
             <div className="flex space-x-8">
               <Link to="/" className="hover:text-primary-500 transition-colors">Home</Link>
@@ -22,13 +22,13 @@ export default function About() {
       {/* Content */}
       <div className="pt-32 pb-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl font-bold mb-6 gradient-text">About WorkZen HRMS</h1>
+          <h1 className="text-5xl font-bold mb-6 gradient-text">About DayFlow HRMS</h1>
           <p className="text-xl text-gray-400 mb-8">
-            WorkZen HRMS is designed to transform HR operations for modern Indian businesses.
+            DayFlow HRMS is designed to transform HR operations for modern Indian businesses.
           </p>
           <div className="space-y-4 text-gray-300">
             <p>
-              This page is a placeholder for future content about WorkZen HRMS, its mission, vision, and team.
+              This page is a placeholder for future content about DayFlow HRMS, its mission, vision, and team.
             </p>
             <p>
               Coming soon: Company history, team profiles, values, and more.

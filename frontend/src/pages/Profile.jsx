@@ -1,5 +1,5 @@
 /**
- * WorkZen HRMS - Profile Page
+ * DayFlow HRMS - Profile Page
  * Single-file profile page accessible from navbar dropdown
  * Shows user information and allows basic updates
  */
@@ -24,8 +24,8 @@ function Profile() {
 
   useEffect(() => {
     // Check authentication
-    const token = localStorage.getItem('workzen_token');
-    const userData = localStorage.getItem('workzen_user');
+    const token = localStorage.getItem('dayflow_token');
+    const userData = localStorage.getItem('dayflow_user');
 
     if (!token) {
       navigate('/login');
@@ -44,7 +44,7 @@ function Profile() {
   }, [navigate]);
 
   const handleBack = () => {
-    const role = localStorage.getItem('workzen_role');
+    const role = localStorage.getItem('dayflow_role');
     // Navigate back to appropriate dashboard
     switch (role) {
       case 'Admin':
@@ -67,7 +67,7 @@ function Profile() {
   const handleSave = () => {
     // Update user data in localStorage
     const updatedUser = { ...user, ...formData };
-    localStorage.setItem('workzen_user', JSON.stringify(updatedUser));
+    localStorage.setItem('dayflow_user', JSON.stringify(updatedUser));
     setUser(updatedUser);
     setIsEditing(false);
     

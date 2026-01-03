@@ -44,7 +44,7 @@ app.put('/api/leaves/:id/approve', leaveRoutes.approveLeave);
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
-    message: 'WorkZen HRMS API is running',
+    message: 'DayFlow HRMS API is running',
     timestamp: new Date().toISOString()
   });
 });
@@ -52,7 +52,7 @@ app.get('/api/health', (req, res) => {
 // Root route
 app.get('/', (req, res) => {
   res.json({
-    message: 'WorkZen HRMS API',
+    message: 'DayFlow HRMS API',
     version: '1.0.0',
     endpoints: {
       auth: '/api/auth (login, register, users)',
@@ -86,7 +86,7 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`\n🚀 WorkZen HRMS Backend server is running on port ${PORT}`);
+  console.log(`\n🚀 DayFlow HRMS Backend server is running on port ${PORT}`);
   console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔗 API URL: http://localhost:${PORT}`);
   console.log(`📊 Health check: http://localhost:${PORT}/api/health\n`);

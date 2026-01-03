@@ -1,5 +1,5 @@
 /**
- * WorkZen HRMS - HR Officer Dashboard
+ * DayFlow HRMS - HR Officer Dashboard
  * Single-file dashboard for HR Officer role
  * 
  * Features (restricted to HR capabilities):
@@ -79,9 +79,9 @@ function DashboardHROfficer() {
 
   // Role check on mount
   useEffect(() => {
-    const token = localStorage.getItem('workzen_token');
-    const role = localStorage.getItem('workzen_role');
-    const userData = localStorage.getItem('workzen_user');
+    const token = localStorage.getItem('dayflow_token');
+    const role = localStorage.getItem('dayflow_role');
+    const userData = localStorage.getItem('dayflow_user');
 
     if (!token || role !== 'HR Officer') {
       navigate('/login');
@@ -198,9 +198,9 @@ function DashboardHROfficer() {
       showToast('Failed to load employees. Using demo data.', 'error');
       // Fallback mock data
       setEmployees([
-        { id: 1, name: 'Sarah Johnson', email: 'sarah.j@workzen.com', role: 'Employee', department: 'Engineering', phone: '+1 234-567-8901', joinDate: '2023-01-15', status: 'active', isActive: true },
-        { id: 2, name: 'Michael Chen', email: 'michael.c@workzen.com', role: 'Employee', department: 'Product', phone: '+1 234-567-8902', joinDate: '2022-06-20', status: 'active', isActive: true },
-        { id: 3, name: 'Emily Rodriguez', email: 'emily.r@workzen.com', role: 'Employee', department: 'Design', phone: '+1 234-567-8903', joinDate: '2023-03-10', status: 'active', isActive: false },
+        { id: 1, name: 'Sarah Johnson', email: 'sarah.j@DayFlow.com', role: 'Employee', department: 'Engineering', phone: '+1 234-567-8901', joinDate: '2023-01-15', status: 'active', isActive: true },
+        { id: 2, name: 'Michael Chen', email: 'michael.c@DayFlow.com', role: 'Employee', department: 'Product', phone: '+1 234-567-8902', joinDate: '2022-06-20', status: 'active', isActive: true },
+        { id: 3, name: 'Emily Rodriguez', email: 'emily.r@DayFlow.com', role: 'Employee', department: 'Design', phone: '+1 234-567-8903', joinDate: '2023-03-10', status: 'active', isActive: false },
       ]);
     }
   }
@@ -310,8 +310,8 @@ function DashboardHROfficer() {
       showToast('Failed to load leave requests', 'error');
       // Fallback mock leave data
       setLeaves([
-        { id: 1, employeeName: 'Emily Rodriguez', email: 'emily.r@workzen.com', type: 'Vacation', from: '2025-12-10', to: '2025-12-14', days: 5, status: 'pending', reason: 'Family trip' },
-        { id: 2, employeeName: 'Anna Kumar', email: 'anna.k@workzen.com', type: 'Sick Leave', from: '2025-11-08', to: '2025-11-08', days: 1, status: 'pending', reason: 'Not feeling well' },
+        { id: 1, employeeName: 'Emily Rodriguez', email: 'emily.r@DayFlow.com', type: 'Vacation', from: '2025-12-10', to: '2025-12-14', days: 5, status: 'pending', reason: 'Family trip' },
+        { id: 2, employeeName: 'Anna Kumar', email: 'anna.k@DayFlow.com', type: 'Sick Leave', from: '2025-11-08', to: '2025-11-08', days: 1, status: 'pending', reason: 'Not feeling well' },
       ]);
     }
   }
@@ -531,9 +531,9 @@ function DashboardHROfficer() {
   // ==================== HELPERS ====================
 
   const handleLogout = () => {
-    localStorage.removeItem('workzen_token');
-    localStorage.removeItem('workzen_role');
-    localStorage.removeItem('workzen_user');
+    localStorage.removeItem('dayflow_token');
+    localStorage.removeItem('dayflow_role');
+    localStorage.removeItem('dayflow_user');
     navigate('/login');
   };
 
@@ -587,7 +587,7 @@ function DashboardHROfficer() {
         className="w-64 bg-gray-900/50 backdrop-blur-xl border-r border-gray-800 flex flex-col"
       >
         <div className="p-6 border-b border-gray-800 flex items-center gap-2">
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">WorkZen</h2>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">DayFlow</h2>
           <p className="text-sm text-gray-400">HR Officer</p>
         </div>
 
@@ -1021,7 +1021,7 @@ function DashboardHROfficer() {
                         value={employeeForm.email}
                         onChange={(e) => setEmployeeForm({ ...employeeForm, email: e.target.value })}
                         className={`w-full px-3 py-2 bg-gray-800 border ${formErrors.email ? 'border-red-500' : 'border-gray-700'} rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary`}
-                        placeholder="john.doe@workzen.com"
+                        placeholder="john.doe@DayFlow.com"
                         aria-label="Employee email"
                       />
                       {formErrors.email && <p className="text-xs text-red-400 mt-1">{formErrors.email}</p>}

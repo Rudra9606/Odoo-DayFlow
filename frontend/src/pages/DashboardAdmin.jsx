@@ -1,5 +1,5 @@
 /**
- * WorkZen HRMS - Admin Dashboard
+ * DayFlow HRMS - Admin Dashboard
  * Single-file dashboard for Admin role
  * Features (from Excalidraw HRMS flow):
  * - Left sidebar: Employees, Attendance, Time Off, Payroll, Reports, Settings
@@ -168,9 +168,9 @@ function DashboardAdmin() {
 
   useEffect(() => {
     // Check authentication
-    const token = localStorage.getItem('workzen_token');
-    const role = localStorage.getItem('workzen_role');
-    const userData = localStorage.getItem('workzen_user');
+    const token = localStorage.getItem('dayflow_token');
+    const role = localStorage.getItem('dayflow_role');
+    const userData = localStorage.getItem('dayflow_user');
 
     if (!token || role !== 'Admin') {
       navigate('/login');
@@ -384,7 +384,7 @@ function DashboardAdmin() {
     WindowPrint.document.write(`
       <html>
         <head>
-          <title>${report.name || 'Report'} - WorkZen HRMS</title>
+          <title>${report.name || 'Report'} - DayFlow HRMS</title>
           <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body { font-family: Arial, sans-serif; padding: 20px; color: #000; background: #fff; }
@@ -417,7 +417,7 @@ function DashboardAdmin() {
         <body>
           <div class="report-container">
             <div class="header">
-              <div class="company-logo">WorkZen HRMS</div>
+              <div class="company-logo">DayFlow HRMS</div>
               <div class="report-title">${report.name || 'Report'}</div>
             </div>
 
@@ -447,7 +447,7 @@ function DashboardAdmin() {
               <div style="padding: 15px; background: #f9fafb; border-radius: 5px;">
                 <p style="font-size: 14px; line-height: 1.8;">
                   This report contains comprehensive data analysis for the ${report.type || 'selected'} module. 
-                  The information presented below has been generated from the WorkZen HRMS database 
+                  The information presented below has been generated from the DayFlow HRMS database 
                   and reflects the current state of records as of the generation date.
                 </p>
               </div>
@@ -492,7 +492,7 @@ function DashboardAdmin() {
             </div>
 
             <div class="footer">
-              <p><strong>WorkZen HRMS</strong> - Human Resource Management System</p>
+              <p><strong>DayFlow HRMS</strong> - Human Resource Management System</p>
               <p>This is a computer-generated report. No signature required.</p>
               <p>Downloaded on: ${new Date().toLocaleString()}</p>
             </div>
@@ -520,7 +520,7 @@ function DashboardAdmin() {
     const csvRows = [];
     
     // Add header
-    csvRows.push('WorkZen HRMS - Report Export');
+    csvRows.push('DayFlow HRMS - Report Export');
     csvRows.push('');
     csvRows.push(`Report Name,${report.name || 'Unnamed Report'}`);
     csvRows.push(`Report Type,${report.type || 'N/A'}`);
@@ -752,7 +752,7 @@ function DashboardAdmin() {
             transition={{ delay: 0.2 }}
             className="text-center"
           >
-            <h2 className="text-2xl font-bold neon-text mb-2">WorkZen HRMS</h2>
+            <h2 className="text-2xl font-bold neon-text mb-2">DayFlow HRMS</h2>
             <p className="text-gray-400 text-sm">Loading Dashboard...</p>
           </motion.div>
           
@@ -787,7 +787,7 @@ function DashboardAdmin() {
         <div className="p-6 border-b border-white/10 flex flex-col items-center gap-2 relative">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 blur-xl"></div>
           <h2 className="text-2xl font-bold neon-text relative z-10">
-            WorkZen
+            DayFlow
           </h2>
           <p className="text-sm text-gray-400 relative z-10">Admin Dashboard</p>
         </div>
@@ -2419,7 +2419,7 @@ function DashboardAdmin() {
                     <input
                       type="text"
                       name="company"
-                      defaultValue={editingUser?.company || 'WORKZEN'}
+                      defaultValue={editingUser?.company || 'DayFlow'}
                       required
                       className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary"
                     />
@@ -2505,7 +2505,7 @@ function DashboardAdmin() {
                               method: 'POST',
                               headers: {
                                 'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${localStorage.getItem('workzen_token')}`
+                                'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}`
                               },
                               body: JSON.stringify({
                                 userId: selectedUser._id,
@@ -2546,7 +2546,7 @@ function DashboardAdmin() {
                               method: 'POST',
                               headers: {
                                 'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${localStorage.getItem('workzen_token')}`
+                                'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}`
                               },
                               body: JSON.stringify({
                                 userId: selectedUser._id,

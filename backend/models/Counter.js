@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
  * Maintains atomic counters for unique user IDs per company and year
  */
 const counterSchema = new mongoose.Schema({
-  // Key format: "COMPANY_YEAR" e.g., "WORKZEN_2025"
+  // Key format: "COMPANY_YEAR" e.g., "DayFlow_2025"
   key: {
     type: String,
     required: true,
