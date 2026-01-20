@@ -34,7 +34,7 @@ router.post('/check-in', [
     }
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    today.setUTCHours(0, 0, 0, 0);
 
     // Check if already checked in today
     const existingAttendance = await Attendance.findOne({
@@ -103,7 +103,7 @@ router.put('/check-out', [
     const { employeeId, location, method = 'web' } = req.body;
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    today.setUTCHours(0, 0, 0, 0);
 
     // Find today's attendance record
     const attendance = await Attendance.findOne({
@@ -122,6 +122,38 @@ router.put('/check-out', [
       return res.status(400).json({
         success: false,
         message: 'Already checked out today'
+      });
+    }
+
+    // Validate minimum work hours (9 hours)
+    const checkInTime = new Date(attendance.checkIn.time);
+    const currentTime = new Date();
+    const hoursWorked = (currentTime - checkInTime) / (1000 * 60 * 60);
+    
+    if (hoursWorked < 9) {
+      const remainingMinutes = Math.ceil((9 - hoursWorked) * 60);
+      const hours = Math.floor(remainingMinutes / 60);
+      const mins = remainingMinutes % 60;
+      return res.status(400).json({
+        success: false,
+        message: `Minimum 9 hours required. Please work ${hours}h ${mins}m more before checking out.`,
+        hoursWorked: hoursWorked.toFixed(2),
+        remainingHours: (9 - hoursWorked).toFixed(2)
+      });
+    }
+
+    // Check if lunch break (12-1pm) was taken
+    const lunchBreakTaken = attendance.breakTime.breaks.some(b => {
+      if (!b.startTime) return false;
+      const breakStart = new Date(b.startTime);
+      const breakHour = breakStart.getHours();
+      return breakHour >= 12 && breakHour < 13;
+    });
+
+    if (!lunchBreakTaken) {
+      return res.status(400).json({
+        success: false,
+        message: 'You must take a lunch break between 12:00 PM - 1:00 PM before checking out.'
       });
     }
 
@@ -163,6 +195,86 @@ router.put('/check-out', [
   }
 });
 
+// @route   POST /api/attendance/break/start
+// @desc    Start break
+// @access  Private
+router.post('/break/start', [
+  body('employeeId', 'Employee ID is required').notEmpty()
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, message: 'Validation errors', errors: errors.array() });
+    }
+
+    const { employeeId } = req.body;
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+
+    console.log('🔍 Looking for check-in record:', { employeeId, date: today.toISOString() });
+
+    const attendance = await Attendance.findOne({ employee: employeeId, date: today });
+    
+    if (!attendance) {
+      console.error('❌ No attendance record found:', { employeeId, date: today.toISOString() });
+      return res.status(404).json({ success: false, message: 'No check-in record found. Please check in first.' });
+    }
+
+    console.log('✅ Attendance found:', { checkIn: attendance.checkIn.time, checkOut: attendance.checkOut });
+
+    const activeBreak = attendance.breakTime.breaks.find(b => b.startTime && !b.endTime);
+    if (activeBreak) {
+      return res.status(400).json({ success: false, message: 'Break already in progress' });
+    }
+
+    attendance.breakTime.breaks.push({ startTime: new Date() });
+    await attendance.save();
+
+    res.json({ success: true, message: 'Break started', data: { attendance } });
+  } catch (error) {
+    console.error('Start break error:', error);
+    res.status(500).json({ success: false, message: 'Server error starting break' });
+  }
+});
+
+// @route   PUT /api/attendance/break/end
+// @desc    End break
+// @access  Private
+router.put('/break/end', [
+  body('employeeId', 'Employee ID is required').notEmpty()
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, message: 'Validation errors', errors: errors.array() });
+    }
+
+    const { employeeId } = req.body;
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+
+    const attendance = await Attendance.findOne({ employee: employeeId, date: today });
+    if (!attendance) {
+      return res.status(404).json({ success: false, message: 'No check-in record found' });
+    }
+
+    const activeBreak = attendance.breakTime.breaks.find(b => b.startTime && !b.endTime);
+    if (!activeBreak) {
+      return res.status(400).json({ success: false, message: 'No active break found' });
+    }
+
+    activeBreak.endTime = new Date();
+    activeBreak.duration = Math.round((activeBreak.endTime - activeBreak.startTime) / (1000 * 60));
+    attendance.breakTime.total = attendance.breakTime.breaks.filter(b => b.duration).reduce((sum, b) => sum + b.duration, 0);
+    await attendance.save();
+
+    res.json({ success: true, message: 'Break ended', data: { attendance, breakDuration: activeBreak.duration, totalBreakTime: attendance.breakTime.total } });
+  } catch (error) {
+    console.error('End break error:', error);
+    res.status(500).json({ success: false, message: 'Server error ending break' });
+  }
+});
+
 // @route   GET /api/attendance
 // @desc    Get attendance records with filters
 // @access  Private
@@ -182,10 +294,10 @@ router.get('/', async (req, res) => {
     if (req.query.startDate && req.query.endDate) {
       // Create date objects at start and end of day to handle timezone issues
       const startDate = new Date(req.query.startDate);
-      startDate.setHours(0, 0, 0, 0);
+      startDate.setUTCHours(0, 0, 0, 0);
       
       const endDate = new Date(req.query.endDate);
-      endDate.setHours(23, 59, 59, 999);
+      endDate.setUTCHours(23, 59, 59, 999);
       
       filter.date = {
         $gte: startDate,
@@ -242,10 +354,10 @@ router.get('/', async (req, res) => {
 router.get('/today', async (req, res) => {
   try {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    today.setUTCHours(0, 0, 0, 0);
     
     const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
 
     const todayAttendance = await Attendance.find({
       date: { $gte: today, $lt: tomorrow }
@@ -437,9 +549,9 @@ router.get('/stats/by-department', async (req, res) => {
 
     // Get today's date range
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    today.setUTCHours(0, 0, 0, 0);
     const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
 
     // Get attendance stats for each department
     const attendanceStats = await Promise.all(
@@ -597,7 +709,7 @@ router.put('/admin/check-out/:userId', [
 
     // Use provided date or today
     const attendanceDate = date ? new Date(date) : new Date();
-    attendanceDate.setHours(0, 0, 0, 0);
+    attendanceDate.setUTCHours(0, 0, 0, 0);
 
     // Find today's attendance record
     const attendance = await Attendance.findOne({

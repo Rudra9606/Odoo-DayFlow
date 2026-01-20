@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users, Clock, Calendar, Search, UserPlus, LogOut, User as UserIcon, ChevronDown,
-  CheckCircle, AlertCircle, X, Mail, Phone, MapPin
+  CheckCircle, AlertCircle, X, Mail, Phone, MapPin, Coffee
 } from 'lucide-react';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import { Line } from 'react-chartjs-2';
@@ -99,6 +99,20 @@ function DashboardEmployee() {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [showEmployeePanel, setShowEmployeePanel] = useState(false);
 
+  // Break tracking
+  const [onBreak, setOnBreak] = useState(false);
+  const [breakStartTime, setBreakStartTime] = useState(null);
+
+  // Task management
+  const [tasks, setTasks] = useState([]);
+  const [showTaskModal, setShowTaskModal] = useState(false);
+  const [newTask, setNewTask] = useState({ title: '', description: '', priority: 'medium' });
+
+  // Idle detection
+  const [lastActivity, setLastActivity] = useState(new Date());
+  const [isIdle, setIsIdle] = useState(false);
+  const [showIdleWarning, setShowIdleWarning] = useState(false);
+
   useEffect(() => {
     const token = localStorage.getItem('workzen_token');
     const role = localStorage.getItem('workzen_role');
@@ -119,6 +133,7 @@ function DashboardEmployee() {
     fetchAttendance();
     fetchTodayAttendance();
     fetchKPIs();
+    fetchTasks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
@@ -130,6 +145,66 @@ function DashboardEmployee() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+
+  // Idle Detection - Monitor mouse/keyboard activity
+  useEffect(() => {
+    const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+    
+    const resetIdleTimer = () => {
+      setLastActivity(new Date());
+      setIsIdle(false);
+      setShowIdleWarning(false);
+    };
+
+    // Add event listeners for all activity types
+    activityEvents.forEach(event => {
+      document.addEventListener(event, resetIdleTimer);
+    });
+
+    // Check for idle every 30 seconds
+    const idleCheckInterval = setInterval(() => {
+      const now = new Date();
+      const timeSinceActivity = (now - lastActivity) / 1000; // seconds
+
+      if (timeSinceActivity >= 30) { // 30 seconds for testing (change to 300 for 5 minutes in production)
+        setIsIdle(true);
+        setShowIdleWarning(true);
+        
+        // Show browser notification
+        if ('Notification' in window && Notification.permission === 'granted') {
+          new Notification('WorkZen - Are you there?', {
+            body: 'No activity detected for 5 minutes. Please move your mouse to confirm you are working.',
+            icon: '/favicon.ico'
+          });
+        }
+
+        // Log idle time to backend
+        if (user?._id && todayAttendance && !todayAttendance.checkOut) {
+          fetch('http://localhost:5000/api/activity/status', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              employeeId: user._id,
+              status: 'away',
+              activity: 'Idle - No activity detected'
+            })
+          }).catch(err => console.error('Failed to log idle status:', err));
+        }
+      }
+    }, 30000); // Check every 30 seconds
+
+    // Request notification permission
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+
+    return () => {
+      activityEvents.forEach(event => {
+        document.removeEventListener(event, resetIdleTimer);
+      });
+      clearInterval(idleCheckInterval);
+    };
+  }, [lastActivity, user, todayAttendance]);
 
   // Fetch directory (uses /api/users)
   async function fetchDirectory() {
@@ -648,6 +723,93 @@ function DashboardEmployee() {
     }
   }
 
+  // Break management
+  async function startBreak() {
+    try {
+      const res = await fetch('http://localhost:5000/api/attendance/break/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ employeeId: user?._id || user?.id })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+      
+      setOnBreak(true);
+      setBreakStartTime(new Date());
+      alert('✅ Break started');
+    } catch (err) {
+      alert(`Failed to start break: ${err.message}`);
+    }
+  }
+
+  async function endBreak() {
+    try {
+      const res = await fetch('http://localhost:5000/api/attendance/break/end', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ employeeId: user?._id || user?.id })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+      
+      setOnBreak(false);
+      setBreakStartTime(null);
+      alert(`✅ Break ended (${data.data?.breakDuration || 0} minutes)`);
+    } catch (err) {
+      alert(`Failed to end break: ${err.message}`);
+    }
+  }
+
+  // Task management
+  async function fetchTasks() {
+    if (!user?._id) return;
+    try {
+      const res = await fetch(`http://localhost:5000/api/tasks/today/${user._id}`);
+      const data = await res.json();
+      if (res.ok) setTasks(data.tasks || []);
+    } catch (err) {
+      console.error('Fetch tasks error:', err);
+    }
+  }
+
+  async function createTask() {
+    try {
+      const res = await fetch('http://localhost:5000/api/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          employee: user?._id,
+          title: newTask.title,
+          description: newTask.description,
+          priority: newTask.priority
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+      
+      setShowTaskModal(false);
+      setNewTask({ title: '', description: '', priority: 'medium' });
+      fetchTasks();
+      alert('✅ Task created');
+    } catch (err) {
+      alert(`Failed to create task: ${err.message}`);
+    }
+  }
+
+  async function updateTaskStatus(taskId, status) {
+    try {
+      const res = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status, ...(status === 'in-progress' && { startTime: new Date() }), ...(status === 'completed' && { endTime: new Date() }) })
+      });
+      if (!res.ok) throw new Error('Update failed');
+      fetchTasks();
+    } catch (err) {
+      alert(`Failed to update task: ${err.message}`);
+    }
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('workzen_token');
     localStorage.removeItem('workzen_role');
@@ -714,13 +876,53 @@ function DashboardEmployee() {
         </motion.header>
 
         <div className="flex-1 overflow-y-auto p-6 relative">
+          {/* Idle Warning Banner */}
+          <AnimatePresence>
+            {showIdleWarning && (
+              <motion.div
+                initial={{ y: -100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -100, opacity: 0 }}
+                className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50"
+              >
+                <div className="bg-yellow-600 text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3 border-2 border-yellow-500">
+                  <AlertCircle className="w-6 h-6 animate-pulse" />
+                  <div>
+                    <p className="font-bold">Idle Detection Alert!</p>
+                    <p className="text-sm">No activity detected for 5 minutes. Move your mouse to continue.</p>
+                  </div>
+                  <button
+                    onClick={() => setShowIdleWarning(false)}
+                    className="ml-4 bg-yellow-700 hover:bg-yellow-800 px-3 py-1 rounded text-sm font-medium"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <div className="absolute inset-0 overflow-hidden pointer-events-none"><div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div><div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div></div>
           <div className="relative z-10 max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-xl p-6"><div className="flex items-center justify-between"><div><p className="text-gray-400 text-sm">Present this month</p><h3 className="text-3xl font-bold text-white mt-2">{kpis.present}</h3></div><div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center"><CheckCircle className="w-6 h-6 text-green-500" /></div></div></motion.div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-xl p-6"><div className="flex items-center justify-between"><div><p className="text-gray-400 text-sm">Leaves taken</p><h3 className="text-3xl font-bold text-white mt-2">{kpis.leaves}</h3></div><div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center"><Calendar className="w-6 h-6 text-accent" /></div></div></motion.div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-xl p-6"><div className="flex items-center justify-between"><div><p className="text-gray-400 text-sm">Late days</p><h3 className="text-3xl font-bold text-white mt-2">{kpis.late}</h3></div><div className="w-12 h-12 bg-yellow-500/10 rounded-lg flex items-center justify-center"><AlertCircle className="w-6 h-6 text-yellow-500" /></div></div></motion.div>
-              {/* <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-xl p-6"><div className="flex items-center justify-between"><div><p className="text-gray-400 text-sm">Performance</p><h3 className="text-3xl font-bold text-white mt-2">{kpis.performance}%</h3></div><div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center"><UserIcon className="w-6 h-6 text-primary" /></div></div></motion.div> */}
+              
+              {/* Activity Status Card */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-xl p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-gray-400 text-sm">Activity Status</p>
+                    <h3 className={`text-2xl font-bold mt-2 ${isIdle ? 'text-red-500' : 'text-green-500'}`}>
+                      {isIdle ? 'Idle' : 'Active'}
+                    </h3>
+                  </div>
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${isIdle ? 'bg-red-500/10' : 'bg-green-500/10'}`}>
+                    <div className={`w-3 h-3 rounded-full ${isIdle ? 'bg-red-500' : 'bg-green-500 animate-pulse'}`}></div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
 
             <div>
@@ -781,7 +983,7 @@ function DashboardEmployee() {
                             </button>
                             
                             {/* Show Check Out button if not checked out yet */}
-                            {!todayAttendance.checkOut && (
+                            {(!todayAttendance.checkOut || !todayAttendance.checkOut.time) && (
                               <button
                                 onClick={checkOut}
                                 disabled={checkingOut}
@@ -793,7 +995,7 @@ function DashboardEmployee() {
                             )}
                             
                             {/* Show completed status when both check-in and check-out are done */}
-                            {todayAttendance.checkOut && (
+                            {(todayAttendance.checkOut && todayAttendance.checkOut.time) && (
                               <div className="bg-green-600/20 border-2 border-green-500 text-green-400 px-6 py-3 rounded-lg font-semibold text-center flex items-center gap-2 justify-center">
                                 <CheckCircle className="w-5 h-5" />
                                 ✓ Attendance Complete
@@ -812,6 +1014,74 @@ function DashboardEmployee() {
                           </button>
                         )}
                       </div>
+
+                      {/* Break Tracking */}
+                      {todayAttendance && !todayAttendance.checkOut && (
+                        <div className="mt-4">
+                          {!onBreak ? (
+                            <button
+                              onClick={startBreak}
+                              className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+                            >
+                              <Coffee className="w-4 h-4" />
+                              Start Break
+                            </button>
+                          ) : (
+                            <button
+                              onClick={endBreak}
+                              className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+                            >
+                              <CheckCircle className="w-4 h-4" />
+                              End Break ({breakStartTime && Math.floor((new Date() - breakStartTime) / 60000)}m)
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Tasks Panel */}
+                  <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-xl p-6">
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-white font-semibold">Today's Tasks</h3>
+                      <button
+                        onClick={() => setShowTaskModal(true)}
+                        className="bg-primary hover:bg-primary/80 text-white px-3 py-1 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        + Add Task
+                      </button>
+                    </div>
+                    <div className="space-y-2">
+                      {tasks.length === 0 ? (
+                        <p className="text-gray-400 text-sm">No tasks for today</p>
+                      ) : (
+                        tasks.map(task => (
+                          <div key={task._id} className="bg-gray-800/50 border border-gray-700 rounded-lg p-3">
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <h4 className="text-white font-medium">{task.title}</h4>
+                                {task.description && <p className="text-gray-400 text-sm mt-1">{task.description}</p>}
+                                <div className="flex items-center gap-2 mt-2">
+                                  <span className={`text-xs px-2 py-1 rounded ${task.priority === 'high' ? 'bg-red-500/20 text-red-400' : task.priority === 'medium' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-green-500/20 text-green-400'}`}>
+                                    {task.priority}
+                                  </span>
+                                  <span className={`text-xs px-2 py-1 rounded ${task.status === 'completed' ? 'bg-green-500/20 text-green-400' : task.status === 'in-progress' ? 'bg-blue-500/20 text-blue-400' : 'bg-gray-500/20 text-gray-400'}`}>
+                                    {task.status}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="flex gap-1 ml-2">
+                                {task.status === 'pending' && (
+                                  <button onClick={() => updateTaskStatus(task._id, 'in-progress')} className="text-blue-400 hover:text-blue-300 text-xs">Start</button>
+                                )}
+                                {task.status === 'in-progress' && (
+                                  <button onClick={() => updateTaskStatus(task._id, 'completed')} className="text-green-400 hover:text-green-300 text-xs">Complete</button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
 
@@ -1005,6 +1275,72 @@ function DashboardEmployee() {
               <div className="p-6 border-b border-gray-800 flex items-center justify-between"><h3 className="text-xl font-bold text-white">Employee Profile</h3><button onClick={() => setShowEmployeePanel(false)} className="p-2 hover:bg-gray-800 rounded-lg"><X className="w-5 h-5 text-gray-400" /></button></div>
               <div className="p-6 space-y-6"><div className="text-center"><div className="w-24 h-24 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-bold text-3xl mx-auto mb-4">{(selectedEmployee.name||'U').split(' ').map(n=>n[0]).join('').toUpperCase()}</div><h4 className="text-xl font-bold text-white">{selectedEmployee.name}</h4><p className="text-gray-400">{selectedEmployee.role || selectedEmployee.title}</p><p className="text-gray-500 text-sm mt-1">{selectedEmployee.department}</p></div><div className="space-y-3"><div className="flex items-center gap-3 text-gray-300"><Mail className="w-4 h-4 text-gray-400" /> <span className="text-sm">{selectedEmployee.email}</span></div><div className="flex items-center gap-3 text-gray-300"><Phone className="w-4 h-4 text-gray-400" /> <span className="text-sm">{selectedEmployee.phone || '—'}</span></div><div className="flex items-center gap-3 text-gray-300"><MapPin className="w-4 h-4 text-gray-400" /> <span className="text-sm">{selectedEmployee.department || '—'}</span></div><div className="flex items-center gap-3 text-gray-300"><Clock className="w-4 h-4 text-gray-400" /> <span className="text-sm">Joined: {selectedEmployee.joined || 'N/A'}</span></div></div><div><h5 className="text-sm font-semibold text-gray-400 uppercase mb-2">Recent Attendance</h5><div className="space-y-2 text-sm text-gray-300">{attendance.slice(0,5).map((a,i)=>(<div key={i} className="flex items-center justify-between border-b border-gray-800 py-2"><div>{`Day ${a.day}`}</div><div className="text-gray-400">{a.present?`${a.timeIn} - ${a.timeOut}`:'Absent'}</div></div>))}</div></div></div>
             </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Task Creation Modal */}
+      <AnimatePresence>
+        {showTaskModal && (
+          <>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowTaskModal(false)} className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="fixed inset-0 flex items-center justify-center z-50 p-4">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 w-full max-w-md">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-xl font-bold text-white">Add New Task</h3>
+                  <button onClick={() => setShowTaskModal(false)} className="p-2 hover:bg-gray-800 rounded-lg"><X className="w-5 h-5 text-gray-400" /></button>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm text-gray-300 mb-1">Task Title</label>
+                    <input
+                      type="text"
+                      value={newTask.title}
+                      onChange={(e) => setNewTask({...newTask, title: e.target.value})}
+                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary"
+                      placeholder="Enter task title"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-300 mb-1">Description</label>
+                    <textarea
+                      value={newTask.description}
+                      onChange={(e) => setNewTask({...newTask, description: e.target.value})}
+                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary"
+                      rows="3"
+                      placeholder="Task description (optional)"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-300 mb-1">Priority</label>
+                    <select
+                      value={newTask.priority}
+                      onChange={(e) => setNewTask({...newTask, priority: e.target.value})}
+                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary"
+                    >
+                      <option value="low">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                    </select>
+                  </div>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={createTask}
+                      disabled={!newTask.title}
+                      className="flex-1 bg-primary hover:bg-primary/80 disabled:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                    >
+                      Create Task
+                    </button>
+                    <button
+                      onClick={() => setShowTaskModal(false)}
+                      className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg font-medium transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </>
         )}
       </AnimatePresence>

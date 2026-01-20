@@ -56,6 +56,12 @@ app.use('/api/reports', require('./routes/reports'));
 // Leave requests (new endpoint for employee time-off)
 app.use('/api/leaves', require('./routes/leaves'));
 
+// Task management
+app.use('/api/tasks', require('./routes/tasks'));
+
+// Activity tracking
+app.use('/api/activity', require('./routes/activity'));
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({
