@@ -82,7 +82,7 @@ Backend returns all users from database
 setUsers(allUsers) → updates state
     ↓
 UI renders:
-  - Logged-in user card (from localStorage.workzen_user)
+  - Logged-in user card (from localStorage.DayFlow_user)
   - User statistics cards (calculated from users array)
   - User management table (populated from users array)
 ```

@@ -1,5 +1,5 @@
 /**
- * WorkZen HRMS - Signup Page
+ * DayFlow HRMS - Signup Page
  * Single-file registration page
  * Allows only: Employee, HR Officer, Payroll Officer
  * Admin cannot sign up (by invite only)
@@ -146,7 +146,7 @@ function Signup() {
         <div className="text-center mb-8">
           <Link to="/">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              WorkZen
+              DayFlow
             </h1>
           </Link>
         </div>
@@ -161,7 +161,7 @@ function Signup() {
           {/* Header */}
           <div className="mb-8 text-center">
             <h2 className="text-3xl font-bold text-white mb-2">
-              Create your WorkZen account
+              Create your DayFlow account
             </h2>
             <p className="text-gray-400 text-sm">
               Join us and streamline your HR management

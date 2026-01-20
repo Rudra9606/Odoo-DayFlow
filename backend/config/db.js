@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 /**
- * MongoDB Connection Configuration for WorkZen HRMS
+ * MongoDB Connection Configuration for DayFlow HRMS
  * Connects to local MongoDB instance via MongoDB Compass
  */
 const connectDB = async () => {
   try {
-    const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/workzen_hrms';
+    const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/DayFlow_hrms';
     
     const conn = await mongoose.connect(mongoURI, {
       useNewUrlParser: true,

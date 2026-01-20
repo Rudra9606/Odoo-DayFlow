@@ -1,5 +1,5 @@
 /**
- * WorkZen HRMS - Payroll Officer Dashboard
+ * DayFlow HRMS - Payroll Officer Dashboard
  * Single-file dashboard for Payroll Officer role matching Admin UI
  * 
  * FEATURES:
@@ -141,9 +141,9 @@ function DashboardPayrollOfficer() {
 
   // Auth check
   useEffect(() => {
-    const token = localStorage.getItem('workzen_token');
-    const role = localStorage.getItem('workzen_role');
-    const userData = localStorage.getItem('workzen_user');
+    const token = localStorage.getItem('dayflow_token');
+    const role = localStorage.getItem('dayflow_role');
+    const userData = localStorage.getItem('dayflow_user');
 
     if (!token || role !== 'Payroll Officer') {
       navigate('/login');
@@ -268,7 +268,7 @@ function DashboardPayrollOfficer() {
       // TODO: Replace with real API call
       // await fetch('/api/payroll/process', { 
       //   method: 'POST', 
-      //   headers: { 'Authorization': `Bearer ${localStorage.getItem('workzen_token')}` } 
+      //   headers: { 'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}` } 
       // });
       
       await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
@@ -342,7 +342,7 @@ function DashboardPayrollOfficer() {
       
       // Get current user ID from localStorage
       let approverId = null;
-      const storedUser = localStorage.getItem('workzen_user');
+      const storedUser = localStorage.getItem('dayflow_user');
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
         approverId = parsedUser._id || parsedUser.id;
@@ -356,7 +356,7 @@ function DashboardPayrollOfficer() {
         method: 'PUT', 
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('workzen_token')}` 
+          'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}` 
         },
         body: JSON.stringify({ 
           status: 'Approved',
@@ -395,7 +395,7 @@ function DashboardPayrollOfficer() {
       
       // Get current user ID from localStorage
       let approverId = null;
-      const storedUser = localStorage.getItem('workzen_user');
+      const storedUser = localStorage.getItem('dayflow_user');
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
         approverId = parsedUser._id || parsedUser.id;
@@ -409,7 +409,7 @@ function DashboardPayrollOfficer() {
         method: 'PUT', 
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('workzen_token')}` 
+          'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}` 
         },
         body: JSON.stringify({ 
           status: 'Rejected',
@@ -443,7 +443,7 @@ function DashboardPayrollOfficer() {
       console.log('📊 Fetching attendance data from API...');
       const response = await fetch('http://localhost:5000/api/attendance/stats/by-department', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('workzen_token')}`
+          'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}`
         }
       });
 
@@ -517,9 +517,9 @@ function DashboardPayrollOfficer() {
 
   // Logout
   const handleLogout = () => {
-    localStorage.removeItem('workzen_token');
-    localStorage.removeItem('workzen_role');
-    localStorage.removeItem('workzen_user');
+    localStorage.removeItem('dayflow_token');
+    localStorage.removeItem('dayflow_role');
+    localStorage.removeItem('dayflow_user');
     navigate('/login');
   };
 
@@ -541,7 +541,7 @@ function DashboardPayrollOfficer() {
     WindowPrint.document.write(`
       <html>
         <head>
-          <title>${report.title || 'Report'} - WorkZen HRMS</title>
+          <title>${report.title || 'Report'} - DayFlow HRMS</title>
           <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body { font-family: Arial, sans-serif; padding: 20px; color: #000; background: #fff; }
@@ -570,7 +570,7 @@ function DashboardPayrollOfficer() {
         <body>
           <div class="report-container">
             <div class="header">
-              <div class="company-logo">WorkZen HRMS</div>
+              <div class="company-logo">DayFlow HRMS</div>
               <div class="report-title">${report.title || 'Report'}</div>
             </div>
 
@@ -600,7 +600,7 @@ function DashboardPayrollOfficer() {
               <div style="padding: 15px; background: #f9fafb; border-radius: 5px;">
                 <p style="font-size: 14px; line-height: 1.8;">
                   This ${report.title || 'report'} contains comprehensive data analysis for the selected period. 
-                  The information presented below has been generated from the WorkZen HRMS database 
+                  The information presented below has been generated from the DayFlow HRMS database 
                   and reflects the current state of records as of the generation date.
                 </p>
               </div>
@@ -641,7 +641,7 @@ function DashboardPayrollOfficer() {
             </div>
 
             <div class="footer">
-              <p><strong>WorkZen HRMS</strong> - Human Resource Management System</p>
+              <p><strong>DayFlow HRMS</strong> - Human Resource Management System</p>
               <p>This is a computer-generated report. No signature required.</p>
               <p>Downloaded on: ${new Date().toLocaleString()}</p>
             </div>
@@ -670,7 +670,7 @@ function DashboardPayrollOfficer() {
     const csvRows = [];
     
     // Add header
-    csvRows.push('WorkZen HRMS - Report Export');
+    csvRows.push('DayFlow HRMS - Report Export');
     csvRows.push('');
     csvRows.push(`Report Title,${report.title || 'Unnamed Report'}`);
     csvRows.push(`Report Type,${report.type || 'N/A'}`);
@@ -678,7 +678,7 @@ function DashboardPayrollOfficer() {
     csvRows.push(`Status,${report.status || 'Ready'}`);
     csvRows.push(`Report ID,${report.id || 'N/A'}`);
     csvRows.push('');
-    csvRows.push('This report was generated from WorkZen HRMS');
+    csvRows.push('This report was generated from DayFlow HRMS');
     
     const csvContent = csvRows.join('\n');
     
@@ -776,7 +776,7 @@ function DashboardPayrollOfficer() {
         {/* Logo */}
         <div className="p-6 border-b border-gray-800 flex items-center gap-2">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            WorkZen
+            DayFlow
           </h1>
           <p className="text-sm text-gray-400">Payroll Officer</p>
         </div>

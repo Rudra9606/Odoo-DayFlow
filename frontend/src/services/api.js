@@ -1,5 +1,5 @@
 /**
- * WorkZen HRMS - API Service
+ * DayFlow HRMS - API Service
  * Centralized API service for all backend communication
  */
 
@@ -11,7 +11,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
  * Generic API request handler
  */
 const apiRequest = async (endpoint, options = {}) => {
-  const token = localStorage.getItem('workzen_token');
+  const token = localStorage.getItem('dayflow_token');
   
   const config = {
     headers: {
@@ -55,9 +55,9 @@ export const authAPI = {
   getCurrentUser: () => apiRequest('/auth/me'),
 
   logout: () => {
-    localStorage.removeItem('workzen_token');
-    localStorage.removeItem('workzen_role');
-    localStorage.removeItem('workzen_user');
+    localStorage.removeItem('dayflow_token');
+    localStorage.removeItem('dayflow_role');
+    localStorage.removeItem('dayflow_user');
   },
 };
 

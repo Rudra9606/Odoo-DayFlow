@@ -66,7 +66,7 @@ app.use('/api/activity', require('./routes/activity'));
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
-    message: 'WorkZen HRMS Backend is running',
+    message: 'DayFlow HRMS Backend is running',
     timestamp: new Date().toISOString(),
     version: '1.0.0'
   });
@@ -92,7 +92,7 @@ app.use((err, req, res, next) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`WorkZen HRMS Backend server is running on port ${PORT}`);
+  console.log(`DayFlow HRMS Backend server is running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 

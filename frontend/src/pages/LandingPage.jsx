@@ -1,5 +1,5 @@
 /* 
- * WorkZen HRMS - Single-File Landing Page
+ * DayFlow HRMS - Single-File Landing Page
  * All 14 sections in one component for simplicity
  * Inspired by Zoho HRMS with dark theme and smooth animations
  */
@@ -48,7 +48,7 @@ export default function LandingPage() {
               onClick={() => scrollToSection('hero')}
               className="text-2xl font-bold text-primary-500 hover:text-primary-400 transition-colors"
             >
-              WorkZen
+              DayFlow
             </button>
 
             {/* Desktop Navigation */}
@@ -125,7 +125,7 @@ export default function LandingPage() {
             className="text-5xl md:text-7xl font-bold mb-6"
           >
             Transform Your HR
-            <span className="block gradient-text">Operations with WorkZen</span>
+            <span className="block gradient-text">Operations with DayFlow</span>
           </motion.h1>
 
           <motion.p
@@ -240,7 +240,7 @@ export default function LandingPage() {
               HR Software That <span className="gradient-text">Grows with You</span>
             </h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              From startups to enterprises, WorkZen scales effortlessly with your business needs
+              From startups to enterprises, DayFlow scales effortlessly with your business needs
             </p>
           </div>
 
@@ -277,7 +277,7 @@ export default function LandingPage() {
                 <p className="text-gray-400">Self-hosted solution with full access to source code for complete customization</p>
               </div>
               <a 
-                href="https://github.com/DaxVirani03/WorkZen"
+                href="https://github.com/Rudra9606/Odoo-DayFlow"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 py-3 bg-primary-500 hover:bg-primary-600 rounded-lg transition-colors font-semibold whitespace-nowrap"
@@ -481,22 +481,22 @@ export default function LandingPage() {
               Frequently Asked <span className="gradient-text">Questions</span>
             </h2>
             <p className="text-xl text-gray-400">
-              Everything you need to know about WorkZen HRMS
+              Everything you need to know about DayFlow HRMS
             </p>
           </div>
 
           <div className="space-y-4">
             {[
               {
-                q: 'How long does it take to implement WorkZen HRMS?',
+                q: 'How long does it take to implement DayFlow HRMS?',
                 a: 'Most organizations can go live within 2-4 weeks, including data migration and employee training.',
               },
               {
-                q: 'Is WorkZen HRMS compliant with Indian labor laws?',
-                a: 'Yes, WorkZen is fully compliant with all Indian labor laws including PF, ESI, PT, and IT regulations.',
+                q: 'Is DayFlow HRMS compliant with Indian labor laws?',
+                a: 'Yes, DayFlow is fully compliant with all Indian labor laws including PF, ESI, PT, and IT regulations.',
               },
               {
-                q: 'Can I integrate WorkZen with my existing accounting software?',
+                q: 'Can I integrate DayFlow with my existing accounting software?',
                 a: 'Absolutely! We support integration with popular accounting tools like Tally, QuickBooks, and SAP.',
               },
               {
@@ -504,7 +504,7 @@ export default function LandingPage() {
                 a: 'We offer 24/7 email and chat support, dedicated account managers for enterprise clients, and comprehensive training materials.',
               },
               {
-                q: 'Is my data secure with WorkZen?',
+                q: 'Is my data secure with DayFlow?',
                 a: 'Yes, we use bank-grade encryption, regular security audits, and are ISO 27001 certified for data security.',
               },
             ].map((faq, index) => (
@@ -530,12 +530,12 @@ export default function LandingPage() {
           <footer className="border-t border-gray-800 pt-12">
             <div className="grid md:grid-cols-4 gap-8 mb-12">
               <div>
-                <div className="text-2xl font-bold text-primary-500 mb-4">WorkZen</div>
+                <div className="text-2xl font-bold text-primary-500 mb-4">DayFlow</div>
                 <p className="text-gray-400 mb-4">
                   Open Source HRMS for modern businesses
                 </p>
                 <div className="flex space-x-4">
-                  <a href="https://github.com/DaxVirani03/WorkZen" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary-500 transition-colors">
+                  <a href="https://github.com/Rudra9606/Odoo-DayFlow" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary-500 transition-colors">
                     <span className="text-xs">GH</span>
                   </a>
                   <a href="#" className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary-500 transition-colors">
@@ -553,7 +553,7 @@ export default function LandingPage() {
                   <li><button onClick={() => scrollToSection('features')} className="hover:text-primary-500">Features</button></li>
                   <li><button onClick={() => scrollToSection('analytics')} className="hover:text-primary-500">Analytics</button></li>
                   <li><button onClick={() => scrollToSection('demo')} className="hover:text-primary-500">Demo</button></li>
-                  <li><a href="https://github.com/DaxVirani03/WorkZen" target="_blank" rel="noopener noreferrer" className="hover:text-primary-500">Documentation</a></li>
+                  <li><a href="https://github.com/Rudra9606/Odoo-DayFlow" target="_blank" rel="noopener noreferrer" className="hover:text-primary-500">Documentation</a></li>
                 </ul>
               </div>
               
@@ -579,7 +579,7 @@ export default function LandingPage() {
             </div>
 
             <div className="pt-8 border-t border-gray-800 text-center text-gray-400">
-              <p>&copy; {new Date().getFullYear()} WorkZen HRMS. Open Source under MIT License. Made with ❤️ by the community.</p>
+              <p>&copy; {new Date().getFullYear()} DayFlow HRMS. Open Source under MIT License. Made with ❤️ by the community.</p>
             </div>
           </footer>
         </div>

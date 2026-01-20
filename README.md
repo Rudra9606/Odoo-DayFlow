@@ -1,11 +1,11 @@
-# 📊 WorkZen – Smart Human Resource Management System
+# 📊 DayFlow – Smart Human Resource Management System
 
-WorkZen is a modular, scalable HRMS platform designed to simplify and modernize HR operations for startups, institutions, and SMEs. It integrates core HR functionalities—attendance, leave, payroll, and analytics—into a unified, user-friendly interface.
+DayFlow is a modular, scalable HRMS platform designed to simplify and modernize HR operations for startups, institutions, and SMEs. It integrates core HR functionalities—attendance, leave, payroll, and analytics—into a unified, user-friendly interface.
 
 
 ## 🚀 Vision & Mission
 
-WorkZen empowers organizations to:
+DayFlow empowers organizations to:
 - Reduce manual HR tasks
 - Improve transparency and collaboration
 - Make data-driven workforce decisions
@@ -63,7 +63,7 @@ WorkZen empowers organizations to:
 ## 📁 Project Structure
 
 ```
-WorkZen-HRMS/
+DayFlow-HRMS/
 ├── frontend/                 # Next.js frontend application
 │   ├── src/
 │   │   ├── app/             # Next.js app router pages
@@ -94,8 +94,8 @@ WorkZen-HRMS/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/workzen-hrms.git
-   cd workzen-hrms
+   git clone https://github.com/your-username/dayflow-hrms.git
+   cd dayflow-hrms
    ```
 
 2. **Backend Setup**
@@ -120,7 +120,7 @@ WorkZen-HRMS/
 
 ## 🔐 Authentication & Role-Based Access
 
-WorkZen HRMS includes a comprehensive authentication system with role-based dashboards following the Excalidraw HRMS workflow.
+DayFlow HRMS includes a comprehensive authentication system with role-based dashboards following the Excalidraw HRMS workflow.
 
 ### Roles & Dashboards
 
@@ -164,7 +164,7 @@ WorkZen HRMS includes a comprehensive authentication system with role-based dash
 **Login** (`/login`):
 - Enter email and password
 - System automatically redirects to role-specific dashboard
-- localStorage stores: `workzen_token`, `workzen_role`, `workzen_user`
+- localStorage stores: `dayflow_token`, `dayflow_role`, `dayflow_user`
 - **Navbar Profile Dropdown**: Click avatar → Profile or Logout
 
 **Profile Page** (`/profile`):
@@ -175,10 +175,10 @@ WorkZen HRMS includes a comprehensive authentication system with role-based dash
 
 **Test Credentials:**
 ```
-Employee:        employee1@workzen.com / emp123
-HR Officer:      hr1@workzen.com / hr123
-Payroll Officer: payroll1@workzen.com / pay123
-Admin:           admin@workzen.com / admin123
+Employee:        employee1@dayflow.com / emp123
+HR Officer:      hr1@dayflow.com / hr123
+Payroll Officer: payroll1@dayflow.com / pay123
+Admin:           admin@dayflow.com / admin123
 ```
 
 ### Authentication Flow
@@ -210,7 +210,7 @@ Admin:           admin@workzen.com / admin123
 - `POST /api/auth/login` - Authenticate and get token
   ```json
   {
-    "email": "employee1@workzen.com",
+    "email": "employee1@dayflow.com",
     "password": "emp123"
   }
   ```
@@ -219,7 +219,7 @@ Admin:           admin@workzen.com / admin123
 - `GET /api/auth/users` - Get all registered users (debugging)
 
 ### Design Features
-- **Dark Theme**: Consistent with WorkZen's Zoho-inspired design
+- **Dark Theme**: Consistent with DayFlow's Zoho-inspired design
 - **Smooth Animations**: Powered by Framer Motion
 - **Responsive**: Works seamlessly on all devices
 - **Secure**: Token-based authentication with localStorage
@@ -279,7 +279,7 @@ Create a `.env` file in the backend directory:
 ```env
 NODE_ENV=development
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/workzen-hrms
+MONGODB_URI=mongodb://localhost:27017/dayflow-hrms
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 JWT_EXPIRE=7d
 FRONTEND_URL=http://localhost:3000

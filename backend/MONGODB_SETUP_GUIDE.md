@@ -1,6 +1,6 @@
 # MongoDB Compass Integration Guide
 
-## ✅ WorkZen HRMS - Database Setup & Testing
+## ✅ DayFlow HRMS - Database Setup & Testing
 
 This guide will help you set up MongoDB Compass and test the complete database integration.
 
@@ -75,10 +75,10 @@ This will install:
 The `.env` file has been created in the backend folder with:
 
 ```env
-MONGO_URI=mongodb://127.0.0.1:27017/workzen_hrms
+MONGO_URI=mongodb://127.0.0.1:27017/DayFlow_hrms
 PORT=5000
 NODE_ENV=development
-JWT_SECRET=workzen-secret-key-change-in-production
+JWT_SECRET=DayFlow-secret-key-change-in-production
 JWT_EXPIRE=1d
 FRONTEND_URL=http://localhost:3000
 ```
@@ -97,9 +97,9 @@ npm run dev
 **Expected output:**
 ```
 ✅ MongoDB Connected: 127.0.0.1
-📊 Database: workzen_hrms
+📊 Database: DayFlow_hrms
 📁 Collections: (initially empty)
-WorkZen HRMS Backend server is running on port 5000
+DayFlow HRMS Backend server is running on port 5000
 ```
 
 If you see this, MongoDB is connected successfully!
@@ -130,7 +130,7 @@ curl -X POST http://localhost:5000/api/auth/seed-admin
   "user": {
     "id": "507f1f77bcf86cd799439011",
     "name": "Admin User",
-    "email": "admin@workzen.com",
+    "email": "admin@DayFlow.com",
     "role": "Admin"
   }
 }
@@ -138,7 +138,7 @@ curl -X POST http://localhost:5000/api/auth/seed-admin
 
 **✅ Verify in MongoDB Compass:**
 1. Refresh the database
-2. You should see `workzen_hrms` database
+2. You should see `DayFlow_hrms` database
 3. Inside, you'll find `users` collection
 4. Click on `users` → 1 document with admin details
 5. Note: Password is hashed with bcrypt ✅
@@ -153,7 +153,7 @@ curl -X POST http://localhost:5000/api/auth/seed-admin
 ```json
 {
   "name": "John Employee",
-  "email": "john@workzen.com",
+  "email": "john@DayFlow.com",
   "password": "employee123",
   "role": "Employee",
   "department": "IT",
@@ -167,7 +167,7 @@ curl -X POST http://localhost:5000/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "name": "John Employee",
-    "email": "john@workzen.com",
+    "email": "john@DayFlow.com",
     "password": "employee123",
     "role": "Employee",
     "department": "IT",
@@ -184,7 +184,7 @@ curl -X POST http://localhost:5000/api/auth/register \
   "user": {
     "id": "507f1f77bcf86cd799439012",
     "name": "John Employee",
-    "email": "john@workzen.com",
+    "email": "john@DayFlow.com",
     "role": "Employee",
     "department": "IT",
     "designation": "Software Developer"
@@ -206,7 +206,7 @@ curl -X POST http://localhost:5000/api/auth/register \
 **Request Body:**
 ```json
 {
-  "email": "admin@workzen.com",
+  "email": "admin@DayFlow.com",
   "password": "admin123"
 }
 ```
@@ -216,7 +216,7 @@ curl -X POST http://localhost:5000/api/auth/register \
 curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "admin@workzen.com",
+    "email": "admin@DayFlow.com",
     "password": "admin123"
   }'
 ```
@@ -230,7 +230,7 @@ curl -X POST http://localhost:5000/api/auth/login \
   "user": {
     "id": "507f1f77bcf86cd799439011",
     "name": "Admin User",
-    "email": "admin@workzen.com",
+    "email": "admin@DayFlow.com",
     "role": "Admin",
     "department": "IT",
     "designation": "System Administrator",
@@ -317,7 +317,7 @@ curl -X POST http://localhost:5000/api/auth/login \
 
 ## 📊 Expected Collections in MongoDB Compass
 
-After running all tests, you should see these collections in `workzen_hrms` database:
+After running all tests, you should see these collections in `DayFlow_hrms` database:
 
 1. **users** - User accounts (authentication)
 2. **employees** - Detailed employee records
@@ -345,7 +345,7 @@ To start fresh:
 
 ```bash
 # In MongoDB Compass:
-# 1. Right-click on "workzen_hrms" database
+# 1. Right-click on "DayFlow_hrms" database
 # 2. Select "Drop Database"
 # 3. Restart backend server
 # 4. Re-run POST /api/auth/seed-admin
@@ -374,7 +374,7 @@ To start fresh:
 
 3. Try alternative connection string:
    ```
-   mongodb://localhost:27017/workzen_hrms
+   mongodb://localhost:27017/DayFlow_hrms
    ```
 
 ---
@@ -496,8 +496,8 @@ If you encounter issues:
 3. Verify `.env` configuration
 4. Check `backend/config/db.js` connection string
 
-**Database Name:** `workzen_hrms`  
-**Connection String:** `mongodb://127.0.0.1:27017/workzen_hrms`
+**Database Name:** `DayFlow_hrms`  
+**Connection String:** `mongodb://127.0.0.1:27017/DayFlow_hrms`
 
 ---
 

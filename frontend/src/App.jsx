@@ -17,8 +17,8 @@ import Profile from './pages/Profile';
  * Checks localStorage for token and role before allowing access
  */
 function PrivateRoute({ children, allowedRole }) {
-  const token = localStorage.getItem('workzen_token');
-  const role = localStorage.getItem('workzen_role');
+  const token = localStorage.getItem('dayflow_token');
+  const role = localStorage.getItem('dayflow_role');
 
   if (!token) {
     // Not logged in, redirect to login

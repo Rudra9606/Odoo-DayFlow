@@ -1,5 +1,5 @@
 /**
- * WorkZen HRMS - Employee Dashboard
+ * DayFlow HRMS - Employee Dashboard
  * Single-file page aligned visually with Admin Dashboard but restricted to Employee features:
  * - Left sidebar: Employees, Attendance, Time Off (no Payroll/Reports/Settings)
  * - Topbar: Search, Apply Time Off CTA, Avatar dropdown (Profile/Logout)
@@ -114,9 +114,9 @@ function DashboardEmployee() {
   const [showIdleWarning, setShowIdleWarning] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('workzen_token');
-    const role = localStorage.getItem('workzen_role');
-    const userData = localStorage.getItem('workzen_user');
+    const token = localStorage.getItem('dayflow_token');
+    const role = localStorage.getItem('dayflow_role');
+    const userData = localStorage.getItem('dayflow_user');
 
     if (!token || role !== 'Employee') {
       navigate('/login');
@@ -211,7 +211,7 @@ function DashboardEmployee() {
     try {
       const res = await fetch('http://localhost:5000/api/users', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('workzen_token')}`
+          'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}`
         }
       });
       if (!res.ok) throw new Error('Directory load failed');
@@ -227,7 +227,7 @@ function DashboardEmployee() {
   // Fetch attendance from real API
   async function fetchAttendance() {
     try {
-      const storedUser = JSON.parse(localStorage.getItem('workzen_user') || '{}');
+      const storedUser = JSON.parse(localStorage.getItem('dayflow_user') || '{}');
       const userId = storedUser._id || storedUser.id;
       
       console.log('👤 Stored user:', storedUser);
@@ -252,7 +252,7 @@ function DashboardEmployee() {
       
       const res = await fetch(apiUrl, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('workzen_token')}`
+          'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}`
         }
       });
       
@@ -289,7 +289,7 @@ function DashboardEmployee() {
   // Fetch KPI statistics
   async function fetchKPIs() {
     try {
-      const storedUser = JSON.parse(localStorage.getItem('workzen_user') || '{}');
+      const storedUser = JSON.parse(localStorage.getItem('dayflow_user') || '{}');
       const userId = storedUser._id || storedUser.id;
       
       if (!userId) {
@@ -309,7 +309,7 @@ function DashboardEmployee() {
       // Fetch attendance records for current month
       const attendanceRes = await fetch(`http://localhost:5000/api/attendance?employeeId=${userId}&startDate=${startOfMonth}&endDate=${endOfMonth}&limit=100`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('workzen_token')}`
+          'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}`
         }
       });
 
@@ -339,7 +339,7 @@ function DashboardEmployee() {
         // Fetch leaves for current month
         const leavesRes = await fetch(`http://localhost:5000/api/leaves`, {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('workzen_token')}`
+            'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}`
           }
         });
 
@@ -384,7 +384,7 @@ function DashboardEmployee() {
       console.log('📋 Fetching leaves from API...');
       const res = await fetch('http://localhost:5000/api/leaves', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('workzen_token')}`
+          'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}`
         }
       });
       
@@ -396,7 +396,7 @@ function DashboardEmployee() {
       console.log('✅ API Response:', data);
       
       // Get user email from state or localStorage
-      const userEmail = user?.email || JSON.parse(localStorage.getItem('workzen_user') || '{}').email;
+      const userEmail = user?.email || JSON.parse(localStorage.getItem('dayflow_user') || '{}').email;
       
       if (!userEmail) {
         console.warn('⚠️ No user email available, cannot filter leaves');
@@ -533,7 +533,7 @@ function DashboardEmployee() {
   // Fetch today's attendance
   async function fetchTodayAttendance() {
     try {
-      const storedUser = JSON.parse(localStorage.getItem('workzen_user') || '{}');
+      const storedUser = JSON.parse(localStorage.getItem('dayflow_user') || '{}');
       const userId = storedUser._id || storedUser.id;
       
       if (!userId) {
@@ -551,7 +551,7 @@ function DashboardEmployee() {
       
       const res = await fetch(url, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('workzen_token')}`
+          'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}`
         }
       });
       
@@ -580,7 +580,7 @@ function DashboardEmployee() {
   async function checkIn() {
     setCheckingIn(true);
     try {
-      const storedUser = JSON.parse(localStorage.getItem('workzen_user') || '{}');
+      const storedUser = JSON.parse(localStorage.getItem('dayflow_user') || '{}');
       const userId = storedUser._id || storedUser.id;
       
       if (!userId) {
@@ -811,9 +811,9 @@ function DashboardEmployee() {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('workzen_token');
-    localStorage.removeItem('workzen_role');
-    localStorage.removeItem('workzen_user');
+    localStorage.removeItem('dayflow_token');
+    localStorage.removeItem('dayflow_role');
+    localStorage.removeItem('dayflow_user');
     navigate('/login');
   };
 
@@ -828,7 +828,7 @@ function DashboardEmployee() {
       {/* Sidebar */}
       <motion.aside initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="w-64 bg-gray-900/50 backdrop-blur-xl border-r border-gray-800 flex flex-col">
         <div className="p-6 border-b border-gray-800 flex items-center gap-2">
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">WorkZen</h2>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">DayFlow</h2>
           <p className="text-sm text-gray-400">Employee</p>
         </div>
         <nav className="flex-1 p-4 space-y-2">

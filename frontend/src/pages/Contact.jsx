@@ -9,7 +9,7 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="text-2xl font-bold text-primary-500">
-              WorkZen
+              DayFlow
             </Link>
             <div className="flex space-x-8">
               <Link to="/" className="hover:text-primary-500 transition-colors">Home</Link>
@@ -37,14 +37,14 @@ export default function Contact() {
                 <Mail className="w-6 h-6 text-primary-500 mt-1" />
                 <div>
                   <h3 className="font-semibold mb-1">Email</h3>
-                  <p className="text-gray-400">support@workzen.in</p>
+                  <p className="text-gray-400">support@DayFlow.in</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
                 <Phone className="w-6 h-6 text-primary-500 mt-1" />
                 <div>
                   <h3 className="font-semibold mb-1">Phone</h3>
-                  <p className="text-gray-400">+91 1800-WORKZEN</p>
+                  <p className="text-gray-400">+91 1800-DayFlow</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">

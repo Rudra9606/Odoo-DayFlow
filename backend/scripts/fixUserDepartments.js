@@ -9,7 +9,7 @@ const User = require('../models/User');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/workzen_hrms', {
+    await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/dayflow_hrms', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

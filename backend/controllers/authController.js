@@ -13,7 +13,7 @@ const { generateUserId } = require('../utils/userIdGenerator');
 const generateToken = (userId, role) => {
   return jwt.sign(
     { id: userId, role },
-    process.env.JWT_SECRET || 'workzen-secret-key-change-in-production',
+    process.env.JWT_SECRET || 'DayFlow-secret-key-change-in-production',
     { expiresIn: process.env.JWT_EXPIRE || '1d' }
   );
 };
@@ -322,7 +322,7 @@ exports.getAllUsers = async (req, res) => {
 exports.seedAdmin = async (req, res) => {
   try {
     // Check if admin already exists
-    const existingAdmin = await User.findOne({ email: 'admin@workzen.com' });
+    const existingAdmin = await User.findOne({ email: 'admin@DayFlow.com' });
     
     if (existingAdmin) {
       return res.status(400).json({
@@ -334,7 +334,7 @@ exports.seedAdmin = async (req, res) => {
     // Create admin user
     const admin = await User.create({
       name: 'Admin User',
-      email: 'admin@workzen.com',
+      email: 'admin@DayFlow.com',
       password: 'admin123',
       role: 'Admin',
       department: 'IT',

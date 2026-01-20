@@ -1,6 +1,6 @@
-# WorkZen HRMS - React Frontend
+# DayFlow HRMS - React Frontend
 
-Modern React-based landing page for WorkZen HRMS with dark theme and smooth animations.
+Modern React-based landing page for DayFlow HRMS with dark theme and smooth animations.
 
 ## 🚀 Tech Stack
 
@@ -92,7 +92,7 @@ npm run preview
 
 ## 🔐 Authentication
 
-WorkZen HRMS includes role-based authentication with three distinct dashboards:
+DayFlow HRMS includes role-based authentication with three distinct dashboards:
 
 ### Signup (`/signup`)
 - **Allowed Roles**: Employee, HR Officer, Payroll Officer
@@ -101,7 +101,7 @@ WorkZen HRMS includes role-based authentication with three distinct dashboards:
 
 ### Login (`/login`)
 - Authenticates via `POST /api/auth/login`
-- Stores `workzen_token`, `workzen_role`, `workzen_user` in localStorage
+- Stores `DayFlow_token`, `DayFlow_role`, `DayFlow_user` in localStorage
 - **Role-Based Redirect**:
   - Employee → `/dashboard/employee`
   - HR Officer → `/dashboard/hr`
@@ -131,10 +131,10 @@ WorkZen HRMS includes role-based authentication with three distinct dashboards:
 
 ### Test Credentials
 ```
-Employee:        employee1@workzen.com / emp123
-HR Officer:      hr1@workzen.com / hr123
-Payroll Officer: payroll1@workzen.com / pay123
-Admin:           admin@workzen.com / admin123
+Employee:        employee1@DayFlow.com / emp123
+HR Officer:      hr1@DayFlow.com / hr123
+Payroll Officer: payroll1@DayFlow.com / pay123
+Admin:           admin@DayFlow.com / admin123
 ```
 
 ### Protected Routes
@@ -246,7 +246,7 @@ For production deployment:
 
 ## 📄 License
 
-This project is part of WorkZen HRMS. See main LICENSE file.
+This project is part of DayFlow HRMS. See main LICENSE file.
 
 ---
 

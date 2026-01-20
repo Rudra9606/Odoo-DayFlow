@@ -106,7 +106,7 @@ Example:
 1. Check if users exist in database:
    ```bash
    mongosh
-   use workzen
+   use dayflow
    db.users.find().count()
    ```
 2. Click refresh button
@@ -119,7 +119,7 @@ Example:
 ### Problem: Logged-in user card doesn't show
 **Solution**:
 1. Check localStorage (F12 → Application → Local Storage)
-2. Verify `workzen_user` key exists
+2. Verify `dayflow_user` key exists
 3. Re-login to refresh user data
 
 ### Problem: User count shows 0

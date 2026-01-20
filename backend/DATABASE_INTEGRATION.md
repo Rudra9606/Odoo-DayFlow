@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the complete MongoDB integration for WorkZen HRMS using MongoDB Compass (local MongoDB instance).
+This document outlines the complete MongoDB integration for DayFlow HRMS using MongoDB Compass (local MongoDB instance).
 
 ---
 
@@ -10,7 +10,7 @@ This document outlines the complete MongoDB integration for WorkZen HRMS using M
 
 ### 1. Database Configuration
 - **File:** `backend/config/db.js`
-- **Connection String:** `mongodb://127.0.0.1:27017/workzen_hrms`
+- **Connection String:** `mongodb://127.0.0.1:27017/DayFlow_hrms`
 - **Features:**
   - Auto-reconnect on failure
   - Connection event logging
@@ -144,9 +144,9 @@ npm install
 
 The `.env` file is already created with:
 ```env
-MONGO_URI=mongodb://127.0.0.1:27017/workzen_hrms
+MONGO_URI=mongodb://127.0.0.1:27017/DayFlow_hrms
 PORT=5000
-JWT_SECRET=workzen-secret-key-change-in-production
+JWT_SECRET=DayFlow-secret-key-change-in-production
 ```
 
 ### Step 4: Start Backend
@@ -158,10 +158,10 @@ npm run dev
 **Expected Output:**
 ```
 ✅ MongoDB Connected: 127.0.0.1
-📊 Database: workzen_hrms
+📊 Database: DayFlow_hrms
 📁 Collections: None yet
 🔗 Mongoose connected to MongoDB
-WorkZen HRMS Backend server is running on port 5000
+DayFlow HRMS Backend server is running on port 5000
 ```
 
 ### Step 5: Seed Database (Option A)
@@ -178,10 +178,10 @@ This will create:
 
 **Test Credentials:**
 ```
-Admin:    admin@workzen.com    / admin123
-Employee: employee@workzen.com / employee123
-HR:       hr@workzen.com       / hr123
-Payroll:  payroll@workzen.com  / payroll123
+Admin:    admin@DayFlow.com    / admin123
+Employee: employee@DayFlow.com / employee123
+HR:       hr@DayFlow.com       / hr123
+Payroll:  payroll@DayFlow.com  / payroll123
 ```
 
 ### Step 6: Seed Database (Option B - API)
@@ -197,7 +197,7 @@ curl -X POST http://localhost:5000/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "name": "John Doe",
-    "email": "john@workzen.com",
+    "email": "john@DayFlow.com",
     "password": "employee123",
     "role": "Employee",
     "department": "IT",
@@ -211,7 +211,7 @@ curl -X POST http://localhost:5000/api/auth/register \
 
 1. **Open MongoDB Compass**
 2. **Connect to:** `mongodb://127.0.0.1:27017`
-3. **Select Database:** `workzen_hrms`
+3. **Select Database:** `DayFlow_hrms`
 
 ### Expected Collections:
 
@@ -221,7 +221,7 @@ curl -X POST http://localhost:5000/api/auth/register \
 {
   "_id": "ObjectId(...)",
   "name": "Admin User",
-  "email": "admin@workzen.com",
+  "email": "admin@DayFlow.com",
   "password": "$2a$10$...", // Hashed
   "role": "Admin",
   "department": "IT",
@@ -248,7 +248,7 @@ curl -X POST http://localhost:5000/api/auth/register \
   "_id": "ObjectId(...)",
   "firstName": "John",
   "lastName": "Employee",
-  "email": "employee@workzen.com",
+  "email": "employee@DayFlow.com",
   "phone": "+1-234-567-8901",
   "employeeId": "EMP002",
   "department": "Engineering",
@@ -347,7 +347,7 @@ curl -X POST http://localhost:5000/api/auth/register \
 ```bash
 curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@workzen.com","password":"admin123"}'
+  -d '{"email":"admin@DayFlow.com","password":"admin123"}'
 ```
 
 **Expected Response:**
@@ -359,7 +359,7 @@ curl -X POST http://localhost:5000/api/auth/login \
   "user": {
     "id": "507f1f77bcf86cd799439011",
     "name": "Admin User",
-    "email": "admin@workzen.com",
+    "email": "admin@DayFlow.com",
     "role": "Admin"
   }
 }
@@ -463,18 +463,18 @@ All models include indexes for common queries:
 ### Reset Database
 ```bash
 # In MongoDB Compass:
-# Right-click "workzen_hrms" → Drop Database
+# Right-click "DayFlow_hrms" → Drop Database
 # Then re-run: npm run seed
 ```
 
 ### Backup Database
 ```bash
-mongodump --db workzen_hrms --out ./backup
+mongodump --db DayFlow_hrms --out ./backup
 ```
 
 ### Restore Database
 ```bash
-mongorestore --db workzen_hrms ./backup/workzen_hrms
+mongorestore --db DayFlow_hrms ./backup/DayFlow_hrms
 ```
 
 ---
@@ -484,12 +484,12 @@ mongorestore --db workzen_hrms ./backup/workzen_hrms
 ### Connection Errors
 1. Ensure MongoDB service is running
 2. Check port 27017 is available
-3. Try alternative connection: `mongodb://localhost:27017/workzen_hrms`
+3. Try alternative connection: `mongodb://localhost:27017/DayFlow_hrms`
 
 ### Seed Script Fails
 ```bash
 # Clear existing data first
-mongosh workzen_hrms --eval "db.dropDatabase()"
+mongosh DayFlow_hrms --eval "db.dropDatabase()"
 # Then re-run
 npm run seed
 ```
@@ -505,7 +505,7 @@ npm run seed
 
 All criteria met:
 
-- [x] MongoDB Compass connected to `workzen_hrms` database
+- [x] MongoDB Compass connected to `DayFlow_hrms` database
 - [x] All models created with proper schemas
 - [x] Controllers updated to use MongoDB
 - [x] Authentication with bcrypt + JWT
@@ -526,6 +526,6 @@ All criteria met:
 
 ---
 
-**Database:** `workzen_hrms`  
-**Connection:** `mongodb://127.0.0.1:27017/workzen_hrms`  
+**Database:** `DayFlow_hrms`  
+**Connection:** `mongodb://127.0.0.1:27017/DayFlow_hrms`  
 **Last Updated:** November 8, 2025

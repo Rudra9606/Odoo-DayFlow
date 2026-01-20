@@ -1,5 +1,5 @@
 /**
- * WorkZen HRMS - Payslip Modal Component
+ * DayFlow HRMS - Payslip Modal Component
  * Complete payslip view with print capability
  * Matches the format from design requirements
  */
@@ -182,7 +182,7 @@ function PayslipModal({ show, payslip, onClose }) {
             <div className="payslip-container">
               {/* Header */}
               <div className="header">
-                <div className="company-logo">WorkZen</div>
+                <div className="company-logo">DayFlow</div>
                 <div className="payslip-title">Salary slip for month of {new Date(payrollData.payDate || Date.now()).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</div>
               </div>
 

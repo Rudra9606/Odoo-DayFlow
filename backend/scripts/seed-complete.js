@@ -1,5 +1,5 @@
 /**
- * WorkZen HRMS - Complete Database Seeder
+ * DayFlow HRMS - Complete Database Seeder
  * This script seeds the database with realistic test data for all modules
  */
 
@@ -17,7 +17,7 @@ const Payroll = require('../models/Payroll');
 // Connect to MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/workzen_hrms');
+    await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/DayFlow_hrms');
     console.log('✅ MongoDB Connected');
   } catch (error) {
     console.error('❌ MongoDB Connection Error:', error.message);
@@ -52,7 +52,7 @@ const seedData = async () => {
       {
         firstName: 'Admin',
         lastName: 'User',
-        email: 'admin@workzen.com',
+        email: 'admin@DayFlow.com',
         password: hashedPassword,
         role: 'Admin',
         department: 'Management',
@@ -70,7 +70,7 @@ const seedData = async () => {
       {
         firstName: 'Sarah',
         lastName: 'Johnson',
-        email: 'hr@workzen.com',
+        email: 'hr@DayFlow.com',
         password: hashedPassword,
         role: 'HR Officer',
         department: 'Human Resources',
@@ -88,7 +88,7 @@ const seedData = async () => {
       {
         firstName: 'Michael',
         lastName: 'Chen',
-        email: 'payroll@workzen.com',
+        email: 'payroll@DayFlow.com',
         password: hashedPassword,
         role: 'Payroll Officer',
         department: 'Finance',
@@ -106,7 +106,7 @@ const seedData = async () => {
       {
         firstName: 'Emily',
         lastName: 'Rodriguez',
-        email: 'emily@workzen.com',
+        email: 'emily@DayFlow.com',
         password: hashedPassword,
         role: 'Employee',
         department: 'Engineering',
@@ -124,7 +124,7 @@ const seedData = async () => {
       {
         firstName: 'James',
         lastName: 'Wilson',
-        email: 'james@workzen.com',
+        email: 'james@DayFlow.com',
         password: hashedPassword,
         role: 'Employee',
         department: 'Engineering',
@@ -142,7 +142,7 @@ const seedData = async () => {
       {
         firstName: 'Lisa',
         lastName: 'Anderson',
-        email: 'lisa@workzen.com',
+        email: 'lisa@DayFlow.com',
         password: hashedPassword,
         role: 'Employee',
         department: 'Marketing',
@@ -160,7 +160,7 @@ const seedData = async () => {
       {
         firstName: 'David',
         lastName: 'Brown',
-        email: 'david@workzen.com',
+        email: 'david@DayFlow.com',
         password: hashedPassword,
         role: 'Employee',
         department: 'Sales',
@@ -368,10 +368,10 @@ const seedData = async () => {
     console.log(`   - Leave Requests: ${leaveRequests.length}`);
     console.log(`   - Payroll Records: ${payrollRecords.length}`);
     console.log('\n🔐 Login Credentials:');
-    console.log('   Admin: admin@workzen.com / password123');
-    console.log('   HR: hr@workzen.com / password123');
-    console.log('   Payroll: payroll@workzen.com / password123');
-    console.log('   Employee: emily@workzen.com / password123\n');
+    console.log('   Admin: admin@DayFlow.com / password123');
+    console.log('   HR: hr@DayFlow.com / password123');
+    console.log('   Payroll: payroll@DayFlow.com / password123');
+    console.log('   Employee: emily@DayFlow.com / password123\n');
 
   } catch (error) {
     console.error('❌ Error seeding database:', error);

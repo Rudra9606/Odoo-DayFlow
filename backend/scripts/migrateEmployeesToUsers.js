@@ -22,7 +22,7 @@ const migrateEmployeesToUsers = async () => {
     console.log('🚀 Starting Employee to User migration...\n');
     
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/workzen', {
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/dayflow', {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
@@ -77,7 +77,7 @@ const migrateEmployeesToUsers = async () => {
                   'Employee',
             isActive: emp.isActive !== undefined ? emp.isActive : true,
             lastLogin: emp.lastLogin,
-            company: 'WORKZEN'
+            company: 'dayflow'
           });
           
           // Save without validation to avoid password hashing again

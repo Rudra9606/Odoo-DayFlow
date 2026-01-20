@@ -2,7 +2,7 @@
 
 ## ✅ System Status: FULLY IMPLEMENTED & WORKING
 
-Your WorkZen HRMS already has a complete check-in/check-out system that:
+Your DayFlow HRMS already has a complete check-in/check-out system that:
 
 ### 1. **Saves to Database** ✅
 - All check-in times are saved to MongoDB
@@ -124,7 +124,7 @@ To verify it's working:
    ```bash
    # Connect to MongoDB
    mongosh
-   use workzen
+   use DayFlow
    db.attendances.find().pretty()
    # You'll see all check-in/check-out records with work hours
    ```
@@ -160,11 +160,11 @@ Just run your backend server and it will work!
 
 ```bash
 # Terminal 1 - Backend
-cd "C:\Users\Rudra\Downloads\Odoo Workzen\WorkZen\backend"
+cd "C:\Users\Rudra\Downloads\Odoo DayFlow\DayFlow\backend"
 npm start
 
 # Terminal 2 - Frontend
-cd "C:\Users\Rudra\Downloads\Odoo Workzen\WorkZen\frontend"
+cd "C:\Users\Rudra\Downloads\Odoo DayFlow\DayFlow\frontend"
 npm run dev
 ```
 

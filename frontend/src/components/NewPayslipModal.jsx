@@ -1,5 +1,5 @@
 /**
- * WorkZen HRMS - New Payslip Modal Component
+ * DayFlow HRMS - New Payslip Modal Component
  * Create new payslip with salary computation and validation
  */
 
@@ -307,7 +307,7 @@ function NewPayslipModal({ show, onClose, onSubmit }) {
         <body>
           <div class="payslip-container">
             <div class="header">
-              <div class="company-logo">WorkZen HRMS</div>
+              <div class="company-logo">DayFlow HRMS</div>
               <div class="payslip-title">Employee Payslip</div>
             </div>
 
@@ -477,7 +477,7 @@ Click OK to confirm and save.
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('workzen_token')}`
+          'Authorization': `Bearer ${localStorage.getItem('dayflow_token')}`
         },
         body: JSON.stringify(payrollData)
       });

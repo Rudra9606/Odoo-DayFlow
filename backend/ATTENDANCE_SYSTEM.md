@@ -1,7 +1,7 @@
 # Attendance Check-In/Check-Out System
 
 ## Overview
-The WorkZen HRMS system includes a complete check-in/check-out attendance tracking system that automatically saves time records to the database and calculates work hours.
+The DayFlow HRMS system includes a complete check-in/check-out attendance tracking system that automatically saves time records to the database and calculates work hours.
 
 ## How It Works
 
